@@ -1,0 +1,62 @@
+/* SetCard.module.css */
+
+.setCard {
+    --main-font-size: 18px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 8px 0;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    
+
+}
+
+.setContainer {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+
+}
+
+.setContainer #reps {
+    grid-row-start:1;
+    margin: 4px 0;
+    color: black;
+    font-size: var(--main-font-size);
+}
+.setContainer #weight {
+    grid-row-start: 2;
+
+    margin: 4px 0;
+    color: black;
+    font-size: var(--main-font-size);
+}
+
+.setContainer #volume {
+    grid-row-start: 3;
+    color: black;
+    font-size: var(--main-font-size);
+
+}
+
+#reps, #volume, #weight {
+    font-size: var(--main-font-size);
+}
+
+.setContainer #removeSetButton {
+    background-color: black;
+    color: white;
+
+}
+.setContainer #removeSetButton:hover{
+    background-color: gray;
+
+}
+
+
+
+
+
+
+

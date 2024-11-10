@@ -1,8 +1,14 @@
-//import Image from "next/image";
+"use client";
+import React from 'react';
+import ExerciseCard from './components/ExerciseCard';
 
-export default function Home() {
+
+const Page: React.FC = () => {
   return (
     <div>
+      <ExerciseCard />
     </div>
   );
-}
+};
+
+export default Page;

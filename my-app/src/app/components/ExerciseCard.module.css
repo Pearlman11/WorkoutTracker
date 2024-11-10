@@ -1,0 +1,169 @@
+/* ExerciseCard.module.css */
+
+/* Container styling */
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Heading styles */
+  .container h1 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Form styling */
+  .container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .container input[type="text"],
+  .container input[type="number"] {
+    padding: 10px;
+    font-size: 16px;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+
+
+  .container #addExerciseButton:hover {
+    background-color: gray;
+  }
+ 
+  
+  
+  /* Exercise card styling */
+  .exercise {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid gray;
+    border-radius: 4px;
+  }
+  
+  .exercise #exerciseName {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: white;
+    border: solid gray 1px;
+    border-radius: 20px;
+    text-align: center;
+
+  }
+  
+  .exercise #muscleGroup {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: white;
+    border: solid gray 1px;
+    border-radius: 20px;
+    text-align: center;
+  }
+
+  .exercise #date {
+    font-size: 22px;
+    margin-bottom: 10px;
+    
+    color: white;
+    border: solid gray 1px;
+    border-radius: 20px;
+    text-align: center;
+  }
+
+  .exercise #day {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: white;
+    border: solid gray 1px;
+    border-radius: 20px;
+    text-align: center;
+  }
+  
+  .exercise #buttonContainer {
+    
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .exercise #removeExerciseButton {
+    font: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-self: center;
+    
+  }
+  
+  .exercise #removeExerciseButton:hover {
+    background-color: gray;
+  }
+
+  
+  
+  /* SetList styling */
+  .setList {
+    margin-top: 25px;
+  }
+  .setList #addSetButton {
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+
+  }
+  
+  .repsAndWeightForm {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    font: 200px;
+  }
+  
+
+  #addSet {
+   font: 100px;
+  }
+  
+  .addSet:hover {
+    background-color: gray;
+  }
+  
+  /* SetCard styling */
+  .setItems {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .setCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+  }
+  
+  .setCard p {
+    margin: 0;
+    font-size: 16px;
+  }
+
+
+  
+ 
