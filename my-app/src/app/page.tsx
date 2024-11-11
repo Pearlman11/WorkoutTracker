@@ -1,5 +1,14 @@
-import {redirect} from 'next/navigation';
+"use client";
+import React from 'react';
+import DailyView from './components/DailyView';
 
-export default function Page() {
-  redirect('/login');
-}
+
+const Page: React.FC = () => {
+  return (
+    <div>
+      <DailyView />
+    </div>
+  );
+};
+
+export default Page;
