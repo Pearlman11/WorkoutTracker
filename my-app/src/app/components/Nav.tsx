@@ -1,5 +1,8 @@
 import styles from './Nav.module.css';
 
+/*
+ *Initial Nav component idea...will update later when daily/weekly view is implemented
+ */
 export default function Nav() {
     return (
         <nav className = {styles.nav}>
