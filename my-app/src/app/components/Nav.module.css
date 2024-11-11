@@ -6,6 +6,7 @@
     background-color: #C9A473;
     color: #000000;
     position: fixed;
+    z-index: 10;
     width: 100%;
 }
 

@@ -1,9 +1,15 @@
 import styles from './Nav.module.css';
+import Link from 'next/link';
 
 /*
  *Initial Nav component idea...will update later when daily/weekly view is implemented
  */
-export default function Nav() {
+
+interface NavProps {
+    changeView: string;
+}
+
+export default function Nav({changeView}: NavProps) {
     return (
         <nav className = {styles.nav}>
             <div>
@@ -11,10 +17,7 @@ export default function Nav() {
             </div>
             <div className={styles.tabContainer}>
                 <div className={styles.tabs}>
-                    <a href="/login">Workouts</a>
-                </div>
-                <div className={styles.tabs}>
-                    <a href="/login">Change View</a>
+                    <a href={changeView}>Change View</a>
                 </div>
                 <div className={styles.tabs}>
                     <a href="/login">Sign Out</a>

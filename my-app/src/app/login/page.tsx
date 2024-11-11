@@ -2,6 +2,7 @@
 import React from "react";
 import FormComponent from "../components/LoginSignupForm";
 import { useRouter } from "next/navigation";
+import Nav from "../components/Nav";
 
 const LoginPage: React.FC = () => {
     const router = useRouter();
@@ -14,14 +15,17 @@ const LoginPage: React.FC = () => {
         router.push('./home');
     };
     return (
-        <FormComponent
-            formType="Login"
-            onSubmit={handleLogin}
-            buttonText="Login"
-            linkText="Sign up"
-            linkAction={() => router.push('./signup')}
-            isLogin={true}
-        />
+        <div>
+            <Nav changeView="/"/>
+            <FormComponent
+                formType="Login"
+                onSubmit={handleLogin}
+                buttonText="Login"
+                linkText="Sign up"
+                linkAction={() => router.push('./signup')}
+                isLogin={true}
+            />
+        </div>
     );
 };
 
