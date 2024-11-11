@@ -1,0 +1,32 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #C9A473;
+    color: #000000;
+    position: fixed;
+    width: 100%;
+}
+
+.tabContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.tabs {
+    margin: 5px 10px 5px 10px; 
+    padding: 3px 5px 3px 5px;
+    color: #000000;
+    text-decoration: none;
+    border: black 1px solid;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+}
+
+.tabs:hover {
+    background-color: grey;
+    color: black;
+}
