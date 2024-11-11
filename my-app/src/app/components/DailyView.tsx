@@ -4,7 +4,7 @@ import DailyCard from './DailyCard';
 import style from './DailyView.module.css'
 
 export default function DailyView() {
-    const isLoggedIn = false
+    const isLoggedIn = true
 
     return (
         <div className={style.dailyView}>
