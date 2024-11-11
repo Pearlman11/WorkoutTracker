@@ -1,12 +1,12 @@
 "use client";
 import React from 'react';
-import ExerciseCard from './components/ExerciseCard';
+import DailyView from './components/DailyView';
 
 
 const Page: React.FC = () => {
   return (
     <div>
-      <ExerciseCard />
+      <DailyView />
     </div>
   );
 };
