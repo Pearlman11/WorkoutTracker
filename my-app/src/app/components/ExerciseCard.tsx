@@ -90,17 +90,20 @@ const ExerciseCard: React.FC = () => {
 
   return (
     <div className={style.container}>
-      <h1>Daily Workout</h1>
-      <form className={style.addExerciseForm} onSubmit={addExercise}>
-        <input
-          type="text"
-          name="muscleGroup"
-          value={exerciseForm.muscleGroup}
-          onChange={handleExerciseChange}
-          placeholder="Muscle Group"
-          required
-        />
-        <button id = {style.addExerciseButton}type="submit">Add Exercise</button>
+      <div id = {style.section}>
+        <h1 id = {style.title}>Daily Workout</h1>
+      <form  onSubmit={addExercise}>
+        <div id = {style.inputGroup}>
+          <input id={style.inputField}
+            type="text"
+            name="muscleGroup"
+            value={exerciseForm.muscleGroup}
+            onChange={handleExerciseChange}
+            placeholder="Muscle Group"
+            required
+          />
+          <button className = {style.addExerciseButton}type="submit">Add Exercise</button>
+        </div>
       </form>
       {exercises.map((exercise, exerciseIndex) => (
         <div  className={style.exercise}key={exerciseIndex}>
@@ -117,6 +120,7 @@ const ExerciseCard: React.FC = () => {
         </div>
       ))}
     </div>
+    </div>
   );
 };
 
@@ -132,8 +136,8 @@ interface SetListProps {
 const SetList: React.FC<SetListProps> = ({ exercise, exerciseIndex, setExercises }) => {
   //* State to manage form input for adding new set
 const [setForm, setSetForm] = useState<Set>({
-    reps: NaN,
-    weight: NaN,
+    reps: 0,
+    weight: 0,
 });
 
 //* Handle changes to the set input form 
@@ -143,7 +147,7 @@ const handleSetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     //* update the form state with new input values
     setSetForm({
         ...setForm,
-        [name]: value === '' ? NaN : Number(value),
+        [name]: value === '' ? 0 : Number(value),
     });
 };
 
@@ -171,8 +175,8 @@ const handleSetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       return updatedExercises;
     });
     setSetForm({
-        reps: NaN,
-        weight: NaN,
+        reps: 0,
+        weight: 0,
 
     });
   };
@@ -200,8 +204,9 @@ const handleSetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   };
 
   return (
-    <div className={style.setList}>
+  <div className={style.setList}>
   <form className={style.repsAndWeightForm} onSubmit={addSet}>
+   <div id={style.repsAndWeight}>
   <input
     className={style.repsInput}
     type="number"
@@ -221,7 +226,9 @@ const handleSetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     required
   />
 
+
   <button id={style.addSetButton} type="submit">Add Set</button>
+  </div>
 </form>
       {exercise.sets.map((set, setIndex) => (
         <SetCard

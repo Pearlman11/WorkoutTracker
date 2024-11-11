@@ -1,14 +1,5 @@
-"use client";
-import React from 'react';
-import ExerciseCard from './components/ExerciseCard';
+import {redirect} from 'next/navigation';
 
-
-const Page: React.FC = () => {
-  return (
-    <div>
-      <ExerciseCard />
-    </div>
-  );
-};
-
-export default Page;
+export default function Page() {
+  redirect('/login');
+}
