@@ -17,9 +17,6 @@ export default function Nav({changeView}: NavProps) {
             </div>
             <div className={styles.tabContainer}>
                 <div className={styles.tabs}>
-                    <Link href={changeView}>Change View</Link>
-                </div>
-                <div className={styles.tabs}>
                     <Link href='./login'>Sign Out</Link>
                 </div>
             </div>
