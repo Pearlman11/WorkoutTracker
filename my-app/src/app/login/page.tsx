@@ -16,7 +16,6 @@ const LoginPage: React.FC = () => {
     };
     return (
         <div>
-            <Nav changeView="/"/>
             <FormComponent
                 formType="Login"
                 onSubmit={handleLogin}

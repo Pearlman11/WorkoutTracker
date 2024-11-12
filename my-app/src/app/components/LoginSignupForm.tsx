@@ -1,5 +1,6 @@
 import React from "react";
 import style from './LoginSignupForm.module.css';
+import Nav from "./Nav";
 
 interface FormComponentProps {
     formType: string;
@@ -20,6 +21,9 @@ const FormComponent: React.FC<FormComponentProps> = ({
    isLogin
  }) => {
     return (
+      
+           
+      
         <section className={style.formContainer}>
             <div id = {style.formSection} >
                 <h2 id = {style.formTitle}>{formType}</h2>
