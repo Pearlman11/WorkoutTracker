@@ -16,6 +16,35 @@
     width: 100%;
     max-width: 400px;
 }
+#logoNameContainer {
+    display: grid;
+    grid-template-columns: 2;
+    grid-template-rows: 1;
+    margin: auto;
+    gap: 25px;
+    border-bottom: 1px black solid;
+    margin-bottom: 30px;
+    margin-top: 0;
+
+}
+
+#logoNameContainer span{
+    grid-row-start: 1;
+    grid-column-start: 2;
+    grid-row-start: 1;
+    grid-column-start: 2;
+    margin-top: auto;
+    font: 20px black;
+    color: #C9A473
+
+
+}
+
+#logoNameContainer span{
+   
+
+}
+
 
 #formTitle {
     font-size: 24px;
