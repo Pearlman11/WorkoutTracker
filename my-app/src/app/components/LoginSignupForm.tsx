@@ -1,6 +1,6 @@
 import React from "react";
 import style from './LoginSignupForm.module.css';
-import Nav from "./Nav";
+import Link from "next/link";
 
 interface FormComponentProps {
     formType: string;
@@ -58,7 +58,9 @@ const FormComponent: React.FC<FormComponentProps> = ({
                             }}>{linkText}</a>
                         </div>
                     )}
-                    <button type="submit" className={style.formButton}>{buttonText}</button>
+                    <Link href='/daily'>
+                        <button type="submit" className={style.formButton}>Login</button>
+                    </Link>
                 </form>
            
             </div>
