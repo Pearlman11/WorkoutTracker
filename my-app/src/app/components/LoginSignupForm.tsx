@@ -48,7 +48,6 @@ const FormComponent: React.FC<FormComponentProps> = ({
                     {!isLogin && (
                         <div id={style.inputGroup}>
                             <div className= {style.footerLinks}>
-                                <a href="#">Forgot Password</a>
                                 <a href = "#" onClick={(e) => {
                                     e.preventDefault();
                                     linkAction();
