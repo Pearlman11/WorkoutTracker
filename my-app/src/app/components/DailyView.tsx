@@ -1,5 +1,4 @@
 import React from 'react';
-import WeeklySummary from './WeeklySummary';
 import style from './DailyView.module.css'
 import Link from 'next/link';
 
