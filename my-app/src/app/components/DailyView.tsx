@@ -7,7 +7,7 @@ export default function DailyView() {
     return (
         <>
             <div className={style.dailyCard}>
-                <Link href='/exercise'>
+                <Link href= '../Exercises'>
                     <button type='button' className={style.button}>
                         Add Exercise
                     </button>

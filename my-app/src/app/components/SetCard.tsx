@@ -6,10 +6,14 @@ interface Set {
   weight: number;
 }
 
+
+
 interface SetCardProps {
   set: Set;
   removeSet: () => void;
 }
+
+
 
 const SetCard: React.FC<SetCardProps> = ({ set, removeSet }) => {
   const volume = set.reps * set.weight

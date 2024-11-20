@@ -1,15 +1,8 @@
-"use client";
-import React from "react";
-import ExerciseCard from "../components/ExerciseCard";
-import Nav from "../components/Nav";
+import React from 'react';
+import ExercisePage from '../components/exercisePage';
 
-const HomePage: React.FC = () => {
-    return (
-        <div>
-            <Nav changeView='/' />
-            <ExerciseCard />
-        </div>
-    );
+const exercises: React.FC = () => {
+  return <ExercisePage />;
 };
 
-export default HomePage;
+export default exercises;

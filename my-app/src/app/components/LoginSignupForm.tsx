@@ -48,26 +48,26 @@ const FormComponent: React.FC<FormComponentProps> = ({
                     {!isLogin && (
                         <div id={style.inputGroup}>
                             <div className= {style.footerLinks}>
-                                <a href = "#" onClick={(e) => {
+                                <Link href = './login' onClick={(e) => {
                                     e.preventDefault();
                                     linkAction();
-                                }}>{linkText}</a>
+                                }}>{linkText}</Link>
                             </div>
                         </div>
                     )}
 
                     {isLogin && (
                         <div className= {style.footerLinks}>
-                            <a href="#">Forgot Password</a>
-                            <a href = "#" onClick={(e) => {
+                            
+                            <Link href = '/signup' onClick={(e) => {
                                 e.preventDefault();
                                 linkAction();
-                            }}>{linkText}</a>
+                            }}>{linkText}</Link>
                         </div>
                     )}
-                    <Link href='/daily'>
+                  
                         <button type="submit" className={style.formButton}>Login</button>
-                    </Link>
+                  
                 </form>
            
             </div>

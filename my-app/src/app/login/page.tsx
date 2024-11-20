@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
 
         //login logic will go here
 
-        router.push('./home');
+        router.push('/home');
     };
     return (
         <div>
@@ -21,7 +21,7 @@ const LoginPage: React.FC = () => {
                 onSubmit={handleLogin}
                 buttonText="Login"
                 linkText="Sign up"
-                linkAction={() => router.push('./signup')}
+                linkAction={() => router.push('/signup')}
                 isLogin={true}
             />
         </div>
