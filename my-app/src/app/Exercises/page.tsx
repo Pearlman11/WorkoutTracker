@@ -1,212 +1,248 @@
 // my-app/src/app/Exercises/page.tsx
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import style from '@/app/components/exercisePage.module.css';
-import Image from 'next/image';
-import Nav from '../components/Nav';
-import SetsPage from '../Sets/page';
+import style from './exercisePage.module.css';
+import Nav from '../components/Nav/Nav';
 
+// Interface for individual exercise sets
 interface Set {
-  reps: number;
-  weight: number;
+  reps: number;    // Number of repetitions in the set
+  weight: number;  // Weight used in the set (in lbs)
 }
 
-
-
+// Interface defining the structure of an Exercise
 interface Exercise {
-  muscleGroup: string;
-  sets: Set[];
-  date: string;
-  dayOfWeek: string;
-  imageUrl: string;
-
-
-}
-
-interface Workout {
-  exercises: Exercise[];
-
+  _id?: string;          // MongoDB unique identifier
+  muscleGroup: string;   // Target muscle group (e.g., "Chest", "Arms")
+  sets: Set[];          // Array of sets performed
+  date: string;         // Date exercise was performed
+  dayOfWeek: string;    // Day of the week (e.g., "Monday")
+  exerciseName: string; // Name of the exercise
 }
 
 const ExercisesPage: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const dateParam = searchParams.get('date');
+  const dateParam = searchParams.get('date'); // Get date parameter from URL
+  const [exercises, setExercises] = useState<Exercise[]>([]); // State for exercises
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState<string | null>(null); // Error state
+  const [isFormVisible, setIsFormVisible] = useState(false); // Form visibility state
 
+  // Fetch exercises from the API
+  const fetchExercises = useCallback(async () => {
+    try {
+      const response = await fetch('/api/exercises');
+      if (!response.ok) {
+        throw new Error('Failed to fetch Exercises');
+      }
+      const data = await response.json();
+      return data; // Return fetched data
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'failed to fetch exercises');
+      console.log(error);
+      return []; // Return empty array on error
+    }
+  }, [error]);
+
+  // Load exercises on component mount or when dateParam changes
+  useEffect(() => {
+    const loadExercises = async () => {
+      const fetchedExercises = await fetchExercises();
+      if (dateParam) {
+        const filteredExercises = fetchedExercises.filter(
+          (exercise: Exercise) => exercise.date === dateParam
+        );
+        setExercises(filteredExercises); // Set filtered exercises
+      } else {
+        setExercises(fetchedExercises); // Set all fetched exercises
+      }
+      setLoading(false); // Set loading to false
+    };
+    loadExercises();
+  }, [dateParam, fetchExercises]);
+
+  // Utility function to calculate total volume (reps × weight) for all sets
   const calculateTotalVolume = (sets: Set[]) => {
     return sets.reduce((total, set) => total + set.reps * set.weight, 0);
   };
 
-  const dummyExercises: Exercise[] = [
-    {
-      muscleGroup: 'Chest',
-      sets: [{ reps: 10, weight: 50 }, { reps: 20, weight: 25 }, { reps: 2, weight: 150 }],
-      date: '01/01/2023',
-      dayOfWeek: 'Monday',
-      imageUrl: 'https://thumbs.dreamstime.com/b/bench-press-exercise-chest-man-doing-workout-bench-press-exercise-chest-man-doing-workout-barbell-bodybuilder-157558597.jpg',
-
-    },
-    {
-      muscleGroup: 'Back',
-      sets: [{ reps: 12, weight: 60 }],
-      date: '02/01/2023',
-      dayOfWeek: 'Tuesday',
-      imageUrl: 'https://cdni.iconscout.com/illustration/premium/thumb/male-doing-back-workout-with-barbell-illustration-download-in-svg-png-gif-file-formats--man-exercise-gym-training-pack-fitness-illustrations-5453073.png?f=webp',
-
-    },
-    {
-      muscleGroup: 'Legs',
-      sets: [{ reps: 12, weight: 400 }],
-      date: '02/06/2023',
-      dayOfWeek: 'Friday',
-      imageUrl: 'https://www.shutterstock.com/image-vector/man-warming-before-running-vector-260nw-2255562327.jpg',
-
-    },
-  ];
-
-  const [allExercises, setAllExercises] = useState<Exercise[]>(dummyExercises);
-  const [exercises, setExercises] = useState<Exercise[]>([]);
-
-  useEffect(() => {
-    if (dateParam) {
-      const filteredExercises = allExercises.filter(
-        (exercise) => exercise.date === dateParam
-      );
-      setExercises(filteredExercises);
-    } else {
-      setExercises(allExercises);
-    }
-  }, [dateParam, allExercises]);
-
-
+  // Form state for adding new exercises
   const [exerciseForm, setExerciseForm] = useState({
     muscleGroup: '',
-    imageUrl: '',
+    exerciseName: '',
+    date: new Date().toISOString().split('T')[0], // Sets default date to today
   });
 
+  // Predefined list of available muscle groups
+  const muscleGroups = ["Chest", "Arms", "Shoulders", "Legs", "Back"];
 
-
-  const handleExerciseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handler for form input changes
+  const handleExerciseChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setExerciseForm({ ...exerciseForm, [name]: value });
+    setExerciseForm(prev => ({
+      ...prev,
+      [name]: value // Update form state
+    }));
   };
 
-  const addExercise = (e: React.FormEvent) => {
-    e.preventDefault();
+  // Function to add a new exercise
+  const addExercise = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent default form submission
     const currentDate = new Date();
-    const dateString = currentDate.toLocaleDateString();
-    const dayOfWeek = currentDate.toLocaleDateString(undefined, { weekday: 'long' });
+    const dateString = currentDate.toLocaleDateString(); // Get current date as string
+    const dayOfWeek = currentDate.toLocaleDateString(undefined, { weekday: 'long' }); // Get day of the week
 
     const newExercise: Exercise = {
       muscleGroup: exerciseForm.muscleGroup,
       sets: [],
       date: dateString,
       dayOfWeek: dayOfWeek,
-      imageUrl: exerciseForm.imageUrl,
-
+      exerciseName: exerciseForm.exerciseName,
     };
-    const updatedAllExercises = [...allExercises, newExercise];
-    setAllExercises(updatedAllExercises);
 
-    //updating filtered exercises if the date mathes or no date is selectioned
-    if (!dateParam || dateParam === dateString) {
-      setExercises((prevExercises) => [...prevExercises, newExercise]);
+    try {
+      const response = await fetch('/api/exercises', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newExercise), // Send new exercise data
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add exercise');
+      }
+
+      const addedExercise = await response.json();
+      if (!dateParam || dateParam === dateString) {
+        setExercises(prev => [...prev, addedExercise]); // Update exercises state
+      }
+      setExerciseForm({ muscleGroup: '', exerciseName: '', date: Date.now().toString() }); // Reset form
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to add exercise');
+      console.log(error);
     }
-    setExerciseForm({ muscleGroup: '', imageUrl: '' });
   };
 
-  const removeExercise = (exerciseIndex: number) => {
-    const exerciseToRemove = exercises[exerciseIndex];
-    const updatedExercises = exercises.filter((_, index) => index !== exerciseIndex);
-    setExercises(updatedExercises);
+  // Function to remove an exercise
+  const removeExercise = async (exerciseId: string) => {
+    try {
+      const response = await fetch(`/api/exercises/${exerciseId}`, {
+        method: 'DELETE',
+      });
 
-    // Remove from allExercises as well
-    const updatedAllExercises = allExercises.filter(
-      (exercise) => exercise !== exerciseToRemove
-    );
-    setAllExercises(updatedAllExercises);
+      if (!response.ok) {
+        throw new Error('Failed to remove exercise');
+      }
+
+      setExercises(prev => prev.filter(exercise => exercise._id !== exerciseId)); // Update exercises state
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to remove exercise');
+    }
   };
 
+  // Function to navigate to the Sets page
   const navigateToSets = (exercise: Exercise) => {
     router.push(`/Sets?exercise=${encodeURIComponent(JSON.stringify(exercise))}`);
-
   };
 
-
-
-
-
-
   return (
-
     <div className={style.container}>
       <div id={style.navContainer}>
         <Nav changeView='./login'></Nav>
       </div>
-      <div id={style.section}>
-        <div id={style.titleContainer}>
-          <h1 id={style.title}>Workout</h1>
-        </div>
-        <form id={style.exerciseForm} onSubmit={addExercise}>
-          <h2 id={style.formTitle}>Add New Exercise</h2>
-          <div id={style.inputGroup}>
-            <input
-              id={style.muscleInputField}
-              type="text"
-              name="muscleGroup"
-              value={exerciseForm.muscleGroup}
-              onChange={handleExerciseChange}
-              placeholder="Muscle Group"
-              required
-            />
-            <input
-              id={style.imageInputField}
-              type="text"
-              name="imageUrl"
-              value={exerciseForm.imageUrl}
-              onChange={handleExerciseChange}
-              placeholder="Image"
-              required
-            />
-            <button id={style.addExerciseButton} type="submit">
-              Add Exercise
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div id={style.section}>
+          <div id={style.titleContainer}>
+            <h1 id={style.title}>Exercises</h1>
+            <button
+              id={style.toggleFormButton}
+              onClick={() => setIsFormVisible(!isFormVisible)}
+            >
+              {isFormVisible ? 'Close Form' : 'Add New Exercise'}
             </button>
           </div>
-        </form>
-        {exercises.map((exercise, exerciseIndex) => (
-          <div id={style.exercise} key={exerciseIndex}>
-            <p id={style.muscleGroup}>Muscle Group: {exercise.muscleGroup}</p>
-            <div id={style.summaries}>
-              <p id={style.totalSets}>Total Sets: {exercise.sets.length}</p>
-              <p id={style.totalVolume}>Total Volume: {calculateTotalVolume(exercise.sets)} lbs</p>
-            </div>
-            <p id={style.date}>
-              Date: {exercise.dayOfWeek} {exercise.date}
-            </p>
-            <p id={style.images}>
-              <Image src={exercise.imageUrl} alt="image for exercise" width={100} height={100} />
-            </p>
-            <div id={style.buttonContainer}>
-              <button
-                id={style.removeExerciseButton}
-                onClick={() => removeExercise(exerciseIndex)}
-              >
-                Remove Exercise
-              </button>
-              <button
-                id={style.viewSetsButton}
-                onClick={() => navigateToSets(exercise)}
-              >
-                View Sets
-              </button>
-            </div>
+          <div id={style.exerciseForm} className={isFormVisible ? style.visible : ''}>
+            <form onSubmit={addExercise}>
+              <h2 id={style.formTitle}>Add New Exercise</h2>
+              <div id={style.inputGroup}>
+                <input
+                  id={style.exerciseNameInput}
+                  type="text"
+                  name="exerciseName"
+                  value={exerciseForm.exerciseName}
+                  onChange={handleExerciseChange}
+                  placeholder="Exercise Name"
+                  required
+                />
+                <select
+                  id={style.muscleInputField}
+                  name="muscleGroup"
+                  value={exerciseForm.muscleGroup}
+                  onChange={handleExerciseChange}
+                  required
+                >
+                  <option value="">Select Muscle Group</option>
+                  {muscleGroups.map((muscle) => (
+                    <option key={muscle} value={muscle}>
+                      {muscle}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  id={style.dateInputField}
+                  type="date"
+                  name="date"
+                  value={exerciseForm.date}
+                  onChange={handleExerciseChange}
+                  required
+                />
+                <button id={style.addExerciseButton} type="submit">
+                  Add Exercise
+                </button>
+              </div>
+            </form>
           </div>
-        ))}
-        {exercises.length === 0 && <p>No exercises Found.</p>}
-      </div>
+          {exercises.length === 0 ? (
+            <p id={style.noExercises}>No exercises Found.</p>
+          ) : (
+            exercises.map((exercise, exerciseIndex) => (
+              <div id={style.exercise} key={exerciseIndex}>
+                <p id={style.date}>
+                  Date: {exercise.dayOfWeek} {exercise.date}
+                </p>
+                <p id={style.muscleGroup}>Muscle Group: {exercise.muscleGroup}</p>
+                <p id={style.exerciseName}>Exercise: {exercise.exerciseName}</p>
+                <div id={style.summaries}>
+                  <p id={style.totalSets}>Total Sets: {exercise.sets.length}</p>
+                  <p id={style.totalVolume}>Total Volume: {calculateTotalVolume(exercise.sets)} lbs</p>
+                </div>
+                <div id={style.buttonContainer}>
+                  <button
+                    id={style.removeExerciseButton}
+                    onClick={() => exercise._id && removeExercise(exercise._id)}
+                  >
+                    Remove Exercise
+                  </button>
+                  <button
+                    id={style.viewSetsButton}
+                    onClick={() => navigateToSets(exercise)}
+                  >
+                    View Sets
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 };
-
 export default ExercisesPage;

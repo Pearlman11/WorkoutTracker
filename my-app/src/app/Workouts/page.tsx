@@ -1,233 +1,128 @@
-// my-app/src/app/Exercises/page.tsx
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import style from '@/app/Workouts/workouts.module.css';
-import Image from 'next/image';
-import Nav from '../components/Nav';
+import style from './workouts.module.css';
+import Nav from '../components/Nav/Nav';
 
-
-
-
-interface Set {
-    reps: number;
-    weight: number;
-}
-
-
-
+// Interface for Exercise data structure
 interface Exercise {
-    muscleGroup: string;
-    sets: Set[];
-    date: string;
-    dayOfWeek: string;
-
-
+  _id?: string;                // MongoDB document ID
+  exerciseName: string;        // Name of the exercise performed
+  muscleGroup: string;         // Target muscle group
+  date: string;               // Date of the workout
+  dayOfWeek: string;          // Day of the week (e.g., "Monday")
+  imageUrl: string;           // URL for exercise demonstration image
+  sets: Array<{ weight: number; reps: number }>;  // Array of sets performed
 }
 
-
-interface Workout {
-    id: string;
-    exercises: Exercise[];
-    muscleGroups: string;
-
-
+// Interface for grouped workout data by date
+interface WorkoutCard {
+  date: string;              // Date of the workout
+  dayOfWeek: string;         // Day of the week
+  exercises: Exercise[];     // All exercises performed on this date
+  totalVolume: number;       // Total volume (weight × reps) for all exercises
 }
 
-interface WorkoutProps {
-    workoutExercise: Exercise[];
-}
+// Main component implementation
+const WorkoutsPage: React.FC = () => {
+  // State management
+  const router = useRouter();
+  const [workoutCards, setWorkoutCards] = useState<WorkoutCard[]>([]);  // Stores grouped workout data
+  const [loading, setLoading] = useState(true);                         // Loading state indicator
+  const [error, setError] = useState<string | null>(null);              // Error state management
 
-const WorkoutPage: React.FC<WorkoutProps> = ({ workoutExercise }) => {
+  // Fetch and process workout data on component mount
+  useEffect(() => {
+    const fetchExercises = async () => {
+      try {
+        // Fetch exercises from API
+        const response = await fetch('/api/exercises');
+        if (!response.ok) throw new Error('Failed to fetch exercises');
+        
+        const exercises: Exercise[] = await response.json();
+        
+        // Group exercises by date for display
+        const groupedExercises = exercises.reduce((acc: { [key: string]: Exercise[] }, exercise) => {
+          if (!acc[exercise.date]) {
+            acc[exercise.date] = [];
+          }
+          acc[exercise.date].push(exercise);
+          return acc;
+        }, {});
 
+        // Calculate total volume and create workout cards
+        const cards: WorkoutCard[] = Object.entries(groupedExercises).map(([date, exercises]) => ({
+          date,
+          dayOfWeek: exercises[0].dayOfWeek,
+          exercises,
+          // Calculate total volume for all exercises on this date
+          totalVolume: exercises.reduce((total, exercise) => 
+            total + exercise.sets.reduce((setTotal, set) => 
+              setTotal + (set.weight * set.reps), 0), 0)
+        }));
 
-    const router = useRouter();
-
-    const calculateTotalVolumeLifted = (exercises: Exercise[]) => {
-        var total = 0;
-        exercises.forEach((exercise) =>
-            exercise.sets.forEach((set) =>
-                total += set.reps * set.weight
-            )
-        );
-        return total;
-    }
-
-   
-
-    const [workoutId, setWorkoutId] = useState<number>(0);
-    const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>(workoutExercise);
-
-
-    const dummyWorkouts: Workout[] = [
-        {
-            id: workoutId.toString(),
-            exercises: workoutExercises,
-            muscleGroups: "legs, back, chest",
-        }
-    ]
-
-    const [workouts, setWorkouts] = useState<Workout[]>(dummyWorkouts);
-    const [exercises, setExercises] = useState<Exercise[]>(workoutExercises);
-
-
-  
-
-
-    const [workoutForm, setWorkoutForm] = useState({
-        muscleGroups: '',
-        imageUrl: '',
-    });
-
-
-    const handleWorkoutChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setWorkoutForm({ ...workoutForm, [name]: value });
+        // Sort cards by date (newest first) and update state
+        setWorkoutCards(cards.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+        setLoading(false);
+      } catch (err) {
+        console.log(error);
+        setError(err instanceof Error ? err.message : 'Failed to fetch exercises');
+        setLoading(false);
+      }
     };
 
+    fetchExercises();
+  }, []);
 
-    const addWorkout = (e: React.FormEvent) => {
-        e.preventDefault();
-        const currentDate = new Date();
-        const dateString = currentDate.toLocaleDateString();
-        const dayOfWeek = currentDate.toLocaleDateString(undefined, { weekday: 'long' });
-        setWorkoutId(workoutId + 1);
-        const newWorkout: Workout = {
-            id: workoutId.toString(),
-            exercises: [],
-            muscleGroups: workoutForm.muscleGroups,
-        }
-        setWorkouts([...workouts, newWorkout])
-        setWorkoutForm({
+  // Function to navigate to Exercises page with selected date
+  const navigateToExercises = (date: string) => {
+    router.push(`/Exercises?date=${encodeURIComponent(date)}`);
+  };
 
-            muscleGroups: '',
-            imageUrl: '',
-        });
-
-    };
-
-    const groupedExercises = workoutExercises.reduce((groups: { [key: string]: Exercise[] }, exercise) => {
-        const { date } = exercise;
-        if (!groups[date]) {
-            groups[date] = [];
-        }
-        groups[date].push(exercise);
-        return groups;
-    }, {});
-
-    const getAllMuscleGroups = (exercises: Exercise[], date: string) => {
-        const exercisesForDate = groupedExercises[date];
-        const muscleGroups = exercisesForDate.map((exercise) => exercise.muscleGroup);
-        const uniqueMuscleGroups = Array.from(new Set(muscleGroups));
-        const muscleGroupsString = uniqueMuscleGroups.join(', ');
-        return muscleGroupsString;
-    }
-
-
-
-
-
-    const removeWorkout = (date: string) => {
-        const updatedExercises = workoutExercises.filter(
-            (exercise) => exercise.date !== date
-        );
-        setWorkoutExercises(updatedExercises);
-    };
-
-
-    const navigateToExercise = (date: string) => {
-        router.push(`/Exercises?date=${encodeURIComponent(date)}`);
-    };
-
-
-
-
-
-    return (
-
-        <div className={style.container}>
-            <div id={style.navContainer}>
-                <Nav changeView='./login'></Nav>
-            </div>
-            <div id={style.section}>
-                <div id={style.titleContainer}>
-                    <h1 id={style.title}>Workouts</h1>
+  return (
+    <div className={style.container}>
+      <div id={style.navContainer}>
+        <Nav changeView='./login' />
+      </div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div id={style.section}>
+          <div id={style.titleContainer}>
+            <h1 id={style.title}>Workout Summary</h1>
+          </div>
+          {workoutCards.length === 0 ? (
+            <p>No workouts found.</p>
+          ) : (
+            workoutCards.map((card, index) => (
+              <div id={style.workout} key={index}>
+                <div id={style.workoutHeader}>
+                  <h2 id={style.date}>
+                    {card.dayOfWeek} - {card.date}
+                  </h2>
+                  <p id={style.totalVolume}>Total Volume: {card.totalVolume} lbs</p>
                 </div>
-                <form id={style.WorkoutForm} onSubmit={addWorkout}>
-                    <h2 id={style.formTitle}>Add New Workout</h2>
-                    <div id={style.inputGroup}>
-                        <input
-                            id={style.muscleInputField}
-                            type="text"
-                            name="muscleGroups"
-                            value={workoutForm.muscleGroups}
-                            onChange={handleWorkoutChange}
-                            placeholder="Muscle Group(s)"
-                            required
-                        />
-                        <input
-                            id={style.imageInputField}
-                            type="text"
-                            name="imageUrl"
-                            value={workoutForm.imageUrl}
-                            onChange={handleWorkoutChange}
-                            placeholder="Image"
-                            required
-                        />
-                        <button id={style.addWorkoutButton} type="submit">Add Workout</button>
-                    </div>
-                </form>
-                {Object.keys(groupedExercises).map((date) => (
-                    <div key={date} className={style.workoutGroup}>
-
-                        {/* Workout Card for each date */}
-                        <div className={style.workoutCard}>
-                            
-                            <p id={style.date}>
-                                {date}
-                            </p>
-                            <div id={style.summaries}>
-                                <p id={style.muscleGroups}>Muscle Groups: {getAllMuscleGroups(groupedExercises[date], date)}</p>
-                                <p id={style.totalSets}>Total Exercises: {groupedExercises[date].length}</p>
-                                <p id={style.totalVolume}>
-                                    Total Volume: {calculateTotalVolumeLifted(groupedExercises[date])} lbs
-                                </p>
-                              
-                               
-                            </div>
-                          
-
-                            <div id={style.buttonContainer}>
-                                <button
-                                    id={style.removeExerciseButton}
-                                    onClick={() => removeWorkout(date)}
-                                >
-                                    Remove Workout
-                                </button>
-                                <button
-                                    id={style.viewExercisesButton}
-                                    onClick={() => navigateToExercise(date)}
-                                >
-                                    View Exercises
-                                </button>
-                            </div>
-
-                        </div>
-                    </div>
-                ))}
-            </div>
+                <div id={style.exerciseSummary}>
+                  <p>Exercises: {card.exercises.length}</p>
+                  <p>Muscle Groups: {
+                    [...new Set(card.exercises.map(ex => ex.muscleGroup))].join(', ')
+                  }</p>
+                </div>
+                <div id={style.buttonContainer}>
+                  <button
+                    id={style.viewExercisesButton}
+                    onClick={() => navigateToExercises(card.date)}
+                  >
+                    View Exercises
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
-
-export default WorkoutPage;
-
-
-
-
-
-{/** 
-
-  
-*/}
+export default WorkoutsPage;
