@@ -1,15 +1,15 @@
 "use client";
 import React from 'react';
-import DailyView from './components/DailyView';
 import { usePathname } from 'next/navigation';
-import Nav from './components/Nav';
+import Nav from './components/Nav/Nav';
 import FormComponent from './components/LoginSignupForm';
 import { useRouter } from "next/navigation";
+import DailyView from './components/DailyView/DailyView';
 
 const Page: React.FC = () => {
   const pathname = usePathname();
   console.log("current path:" + pathname);
-  var isLoggedIn = false;
+  const isLoggedIn = false;
   const router = useRouter();
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {

@@ -2,7 +2,7 @@
 import React from "react";
 import FormComponent from "../components/LoginSignupForm";
 import { useRouter } from "next/navigation";
-import Nav from "../components/Nav";
+import Nav from "../components/Nav/Nav";
 
 const LoginPage: React.FC = () => {
     const router = useRouter();

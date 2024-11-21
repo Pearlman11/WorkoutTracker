@@ -16,7 +16,6 @@ interface FormComponentProps {
 const FormComponent: React.FC<FormComponentProps> = ({
    formType,
    onSubmit,
-   buttonText,
    linkText,
    linkAction,
    isLogin
