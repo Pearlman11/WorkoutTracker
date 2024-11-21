@@ -1,105 +1,116 @@
-
-
 .formContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #1a1a1a;
 }
 
 #formSection {
-    background-color: #ffffff;
+    background: linear-gradient(145deg, #2a2a2a, #242424);
     padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     width: 100%;
     max-width: 400px;
 }
+
 #logoNameContainer {
     display: grid;
     grid-template-columns: 2;
     grid-template-rows: 1;
     margin: auto;
     gap: 25px;
-    border-bottom: 1px black solid;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 30px;
     margin-top: 0;
-
 }
 
-#logoNameContainer span{
+#logoNameContainer span {
     grid-row-start: 1;
     grid-column-start: 2;
-    grid-row-start: 1;
-    grid-column-start: 2;
-    margin-top: auto;
-    font: 20px black;
-    color: #C9A473
-
-
+    font-size: 40px;
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
-
-
-
 
 #formTitle {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
     text-align: center;
-    color: #C9A473;
-    text-decoration: underline;
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-decoration: none;
 }
 
 #inputGroup {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 #inputGroup label {
     display: block;
     margin-bottom: 8px;
-    color: #555;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 #inputGroup input {
     width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #D9D9D9;
-    opacity: 50%;
-    color: #333;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+#inputGroup input:focus {
+    border-color: rgba(58, 123, 213, 0.5);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(58, 123, 213, 0.2);
 }
 
 .footerLinks {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
-    font-size: 14px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
 }
 
 .footerLinks a {
-    color: #C9A473;
+    color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .footerLinks a:hover {
-    text-decoration: underline;
+    color: #00d2ff;
 }
 
 .formButton {
     width: 100%;
     padding: 12px;
-    font-size: 16px;
-    background-color: #D9D9D9;
-    color: black;
+    font-size: 1rem;
+    font-weight: 600;
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+    color: white;
     border: none;
-    border-radius: 25px;
+    border-radius: 30px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .formButton:hover {
-    background-color: #C9A473;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(58, 123, 213, 0.4);
+}
+
+.formButton:active {
+    transform: translateY(0);
 }

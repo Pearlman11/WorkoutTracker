@@ -1,0 +1,324 @@
+/* Main container styling */
+.container {
+    background-color: #1a1a1a;  /* Dark theme background */
+    max-width: 100vw;           /* Full viewport width */
+    min-height: 100vh;          /* Full viewport height */
+    padding: 20px;
+}
+
+/* Grid layout for exercise cards */
+#section {
+    background-color: #242424;
+    border-radius: 12px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* Responsive grid */
+    gap: 24px;
+    max-width: 80vw;
+    min-height: 80vh;
+    padding: 80px 24px 24px;
+}
+
+/* Styling for the "No exercises" message with gradient text */
+#noExercises {
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+    -webkit-background-clip: text;  /* Creates gradient text effect */
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+    font-size: 2rem;
+    text-align: center;
+    padding: 40px 20px;
+    grid-column: 1 / -1;  /* Spans full width of grid */
+    animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -80%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+#titleContainer {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+#exerciseForm {
+    grid-column: 1 / -1;
+    background: linear-gradient(145deg, #2a2a2a, #242424);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 0;
+    margin-bottom: 32px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+#exerciseForm.visible {
+    padding: 24px;
+    max-height: 500px;
+    opacity: 1;
+}
+
+#toggleFormButton {
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+#toggleFormButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(58, 123, 213, 0.3);
+}
+
+#formTitle {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+#inputGroup {
+    display: grid;
+    gap: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    
+}
+
+.inputField {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+#exerciseNameInput,
+#muscleInputField,
+#imageInputField {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #ffffff;
+    width: 100%;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.inputField:focus {
+    outline: none;
+    border-color: #3a7bd5;
+    box-shadow: 0 0 0 2px rgba(58, 123, 213, 0.2);
+}
+
+#addExerciseButton {
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 8px;
+}
+
+#addExerciseButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(58, 123, 213, 0.3);
+}
+
+#exercise {
+    background: linear-gradient(145deg, #2a2a2a, #242424);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+#exercise:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+#muscleGroup,
+#exerciseName {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 8px 0;
+}
+
+#date {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 8px 0;
+}
+
+#images {
+    margin: 16px 0;
+    text-align: center;
+}
+
+#images img {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#summaries {
+    display: grid;
+    grid-template-rows: 2;
+    margin: 16px 0;
+    padding: 16px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#totalSets,
+#totalVolume {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+#totalVolume {
+    grid-row-start: 2;
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+}
+
+#totalSets {
+    grid-row-start: 1;
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+}
+
+#buttonContainer {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#removeExerciseButton,
+#viewSetsButton {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#removeExerciseButton {
+    background: linear-gradient(90deg, #ff4b4b, #ff6b6b);
+    border: none;
+    color: white;
+}
+
+#viewSetsButton {
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+    border: none;
+    color: white;
+}
+
+#removeExerciseButton:hover,
+#viewSetsButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+#navContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+@media (max-width: 768px) {
+    #section {
+        padding: 60px 16px 16px;
+    }
+
+    #title {
+        font-size: 2rem;
+    }
+
+    #exercise {
+        padding: 20px;
+    }
+
+    #buttonContainer {
+        flex-direction: column;
+    }
+}
+
+#muscleInputField {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #ffffff;
+    width: 100%;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+#muscleInputField option {
+    background: #242424;
+    color: #ffffff;
+}
+
+#dateInputField {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #ffffff;
+    width: 100%;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+#dateInputField::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}

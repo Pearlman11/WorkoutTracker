@@ -1,234 +1,157 @@
 .container {
-    background-color: black;
+    background-color: #1a1a1a;
     max-width: 100vw;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-
-
-    
-
-
-    
+    min-height: 100vh;
+    padding: 20px;
 }
 
 #section {
-    grid-row-start: 1;
-    background-color: gray;
-    border-radius: 25px;
+    background-color: #242424;
+    border-radius: 12px;
+    margin: 20px auto;
     display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
-    max-height: 100vh;
-    min-height: 75vh;
-    margin: auto auto;
-    min-width: 100vw;
-    padding: 90px 10px 10px 10px;
-    position: sticky;
-    
-  
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1400px;
+    padding: 80px 24px 24px;
 }
 
 #titleContainer {
-    grid-row-start: 1;
-    grid-row-end: 1;
-    grid-column: 1 / span 3;
-    font: 25px bolder;
-    color: black;
-    justify-self: center;
-
-
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-
-
-
-#WorkoutForm {
-    grid-row-start: 2;
-    grid-column: 1/span 3;
-    border: 1px black solid;
-    border-radius: 25px;
-    padding: 12px;
-
-
+#title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    margin: 0;
+    text-transform: uppercase;
 }
 
-#formTitle {
-    color: black;
-    justify-self: center;
-    font-size: 16px;
+#workout {
+    background: linear-gradient(145deg, #2a2a2a, #242424);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-#inputGroup {
-    margin-top: 10px;
-    display: grid;
-    grid-template-rows: 3;
-    margin-bottom: 10px;
-    
-}
-#imageInputField {
-    grid-row-start: 2;
-    border: black 1px solid;
-    border-radius: 10px;
-    padding-left:60px ;
-    padding-right: 60px;
-    justify-self: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-
+#workout:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
-#muscleInputField {
-    padding-left:60px ;
-    padding-right: 60px;
-    border: black 1px solid;
-    border-radius: 10px;
-    grid-row-start: 1;
-    justify-self: center;
-    margin-top: 10px;
-
-
+#workoutHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 16px;
 }
 
-#addWorkoutButton {
-    grid-row-start: 3;
-    justify-self: center;
-    padding: 10px;
-    margin: auto auto;
-    border: 1px black solid;
-    border-radius: 20px;
-    background-color: darkgray;
+/* Workout date display styling */
+#date {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
 }
 
-
-#exercise {
-    border: 1px black solid;
-    margin: 8px 8px;
-    display: grid;
-    grid-template-columns: 1;
-    grid-template-rows: 4;
-    box-shadow: 1px  6px 5px -1px black;
-    border-radius: 10px;
-    padding: 2px 2px 2px 2px;
-
+/* Total volume display with gradient text effect */
+#totalVolume {
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);  /* Blue gradient */
+    -webkit-background-clip: text;                         /* Enables text gradient for webkit browsers */
+    background-clip: text;                                 /* Standard property for text gradient */
+    color: transparent;                                    /* Makes text transparent to show gradient */
+    font-size: 1.1rem;
+    font-weight: 700;
 }
 
-
-
-
-#images {
-    justify-self: center;
+/* Container for exercise summary information */
+#exerciseSummary {
+    padding: 16px 0;
+    color: #e0e0e0;
 }
 
+/* Individual summary items styling */
+#exerciseSummary p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
+/* Bullet point styling for summary items */
+#exerciseSummary p::before {
+    content: "•";                /* Adds bullet point */
+    color: #3a7bd5;             /* Blue bullet color */
+    font-size: 1.2em;           /* Slightly larger than text */
+}
+
+/* Container for action buttons */
+#buttonContainer {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);  /* Subtle separator line */
+    text-align: center;
+}
+
+/* View exercises button styling */
+#viewExercisesButton {
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);  /* Blue gradient background */
+    border: none;
+    border-radius: 30px;                                   /* Rounded corners */
+    color: white;
+    padding: 12px 28px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;                            /* Smooth hover effect */
+    text-transform: uppercase;                            /* Uppercase text */
+    letter-spacing: 0.5px;                                /* Spread letters slightly */
+    box-shadow: 0 4px 15px rgba(58, 123, 213, 0.2);      /* Subtle shadow effect */
+}
+
+#viewExercisesButton:hover {
+    background: linear-gradient(90deg, #4a8be5, #10e2ff);
+    box-shadow: 0 6px 20px rgba(58, 123, 213, 0.4);
+    transform: translateY(-2px);
+}
+
+#viewExercisesButton:active {
+    transform: translateY(0);
+}
 
 #navContainer {
-    grid-row-start: 0;
-
-
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+@media (max-width: 768px) {
+    #section {
+        grid-template-columns: 1fr;
+        padding: 60px 16px 16px;
+    }
 
+    #title {
+        font-size: 2rem;
+    }
 
-
-.workoutCard {
-    border: 1px black solid;
-    margin: auto auto;
-    display: grid;
-    grid-template-columns: 1;
-    grid-template-rows: 4;
-    box-shadow: 1px  6px 5px -1px black;
-    border-radius: 10px;
-    padding: 2px 2px 2px 2px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-}
-
-#summaries {
-    grid-column-start: 1;
-    grid-row-start: 4;
-    display: grid;
-    grid-template-rows: 2;
-    grid-template-columns: 1;
-    gap: 10px;
-    justify-content: center;
-
-  
-
-}
-
-#buttonContainer {
-    display: grid;
-    grid-template-columns: 2;
-    border-top: 1px solid black;
-    padding-top: 10px;
-    justify-content: space-evenly;
-    padding-bottom: 8px;
-    font-size: 12px;
-
-    
-}
-
-#removeExerciseButton {
-    grid-column-start: 1;
-    border: 1px black solid;
-    padding: 8px;
-    margin: auto auto;
-    border-radius: 20px;
-    background-color: darkgray;
-
-}
-
-#removeExerciseButton :hover {
-    background-color: gray;
-}
-#viewExercisesButton {
-    padding: 8px;
-    margin: auto auto;
-    grid-column-start: 2;
-    border: 1px black solid;
-    border-radius: 20px;
-    background-color: darkgray;
-}
-
-
-
-
-#date {
-    justify-self: center;
-    font-size: 14px;
-    color: black;
-    border-bottom: 2px black solid;
-}
-
-
-
-
-#totalSets {
-    justify-self: center;
-    font-size: 12px;
-    font-weight: bold;
-    grid-column-start: 1;
-    grid-row-start: 2;
-    
-
-}
-
-#totalVolume {
-    justify-self: center;
-    font-size: 12px;
-    font-weight: bold;
-    grid-row-start: 3;
-
-    
-}
-
-#muscleGroups {
-    justify-self: center;
-    font-size: 12px;
-    font-weight: bold;
-    grid-row-start: 1;
-
-
+    #workout {
+        padding: 20px;
+    }
 }
