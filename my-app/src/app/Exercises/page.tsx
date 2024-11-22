@@ -99,7 +99,7 @@ const ExercisesPage: React.FC = () => {
     const newExercise: Exercise = {
       muscleGroup: exerciseForm.muscleGroup,
       sets: [],
-      date: dateString,
+      date: exerciseForm.date,
       dayOfWeek: dayOfWeek,
       exerciseName: exerciseForm.exerciseName,
     };
@@ -127,6 +127,7 @@ const ExercisesPage: React.FC = () => {
       console.log(error);
     }
   };
+  
 
   // Function to remove an exercise
   const removeExercise = async (exerciseId: string) => {
@@ -148,6 +149,20 @@ const ExercisesPage: React.FC = () => {
   // Function to navigate to the Sets page
   const navigateToSets = (exercise: Exercise) => {
     router.push(`/Sets?exercise=${encodeURIComponent(JSON.stringify(exercise))}`);
+  };
+
+  // Function to format the date
+  const formatDate = (dateString: string) => {
+
+    //split dates of a string into components and convert each part to an integer
+    const [year, month, day] = dateString.split('-').map(part => parseInt(part, 10));
+
+    const date = new Date(year, month - 1, day); // -1 since month is zero-based
+    return date.toLocaleDateString(undefined, {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+    });
   };
 
   return (
@@ -215,7 +230,7 @@ const ExercisesPage: React.FC = () => {
             exercises.map((exercise, exerciseIndex) => (
               <div id={style.exercise} key={exerciseIndex}>
                 <p id={style.date}>
-                  Date: {exercise.dayOfWeek} {exercise.date}
+                  Date: {exercise.dayOfWeek} {formatDate(exercise.date)}
                 </p>
                 <p id={style.muscleGroup}>Muscle Group: {exercise.muscleGroup}</p>
                 <p id={style.exerciseName}>Exercise: {exercise.exerciseName}</p>

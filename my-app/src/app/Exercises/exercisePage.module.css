@@ -32,16 +32,6 @@
     grid-column: 1 / -1;  /* Spans full width of grid */
     animation: fadeIn 0.5s ease-in-out;
 }
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -80%);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
-}
 
 #titleContainer {
     grid-column: 1 / -1;
