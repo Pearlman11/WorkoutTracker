@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import connectMongoDB from '@/app/libs/db';
-import Exercise from '@/app/models/Exercise';
+import connectMongoDB from '@/libs/db';
+import Exercise from '@/models/Exercise';
 export async function GET() {
   try {
     await connectMongoDB();

@@ -12,7 +12,7 @@ export default function Nav({ changeView }: NavProps) {
 
     return (
         <nav className={styles.nav}>
-            <Link href="/" className={styles.logo}>
+            <Link href="/home" className={styles.logo}>
                 <h1>Track Fit</h1>
             </Link>
             <div className={styles.navLinks}>
@@ -27,7 +27,7 @@ export default function Nav({ changeView }: NavProps) {
                 )}
                 
                 <Link 
-                    href={changeView} 
+                    href="/"
                     className={styles.logoutButton}
                 >
                     Sign Out
