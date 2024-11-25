@@ -41,15 +41,22 @@ export default function Login() {
     const formData = new FormData(e.target as HTMLFormElement);
 
     try {
-      const response = await doCredentialLogin(formData);
-      console.log("Login successful:", response);
-      if (response?.ok) {
-        window.location.href = "/home"; 
-      }
+        const response = await doCredentialLogin(formData);
+        console.log("Login response:", response);
+
+        if (response?.error === null) {
+            console.log("Login successful:", response);
+            window.location.href = "/home"; 
+        } else {
+            console.error("Login failed:", response?.error);
+            alert("Invalid login credentials. Please try again.");
+        }
     } catch (err) {
-      console.error("Login failed:", err);
+        console.error("Login failed:", err);
+        alert("An unexpected error occurred during login.");
     }
-  };
+};
+
 
   return (
     <section className={style.formContainer}>
