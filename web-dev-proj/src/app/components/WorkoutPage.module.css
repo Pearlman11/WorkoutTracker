@@ -1,0 +1,157 @@
+.container {
+    background-color: #1a1a1a;
+    max-width: 100vw;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+#section {
+    background-color: #242424;
+    border-radius: 12px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1400px;
+    padding: 80px 24px 24px;
+}
+
+#titleContainer {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+#workout {
+    background: linear-gradient(145deg, #2a2a2a, #242424);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+#workout:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+#workoutHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 16px;
+}
+
+/* Workout date display styling */
+#date {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+/* Total volume display with gradient text effect */
+#totalVolume {
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);  /* Blue gradient */
+    -webkit-background-clip: text;                         /* Enables text gradient for webkit browsers */
+    background-clip: text;                                 /* Standard property for text gradient */
+    color: transparent;                                    /* Makes text transparent to show gradient */
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* Container for exercise summary information */
+#exerciseSummary {
+    padding: 16px 0;
+    color: #e0e0e0;
+}
+
+/* Individual summary items styling */
+#exerciseSummary p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Bullet point styling for summary items */
+#exerciseSummary p::before {
+    content: "•";                /* Adds bullet point */
+    color: #3a7bd5;             /* Blue bullet color */
+    font-size: 1.2em;           /* Slightly larger than text */
+}
+
+/* Container for action buttons */
+#buttonContainer {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);  /* Subtle separator line */
+    text-align: center;
+}
+
+/* View exercises button styling */
+#viewExercisesButton {
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);  /* Blue gradient background */
+    border: none;
+    border-radius: 30px;                                   /* Rounded corners */
+    color: white;
+    padding: 12px 28px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;                            /* Smooth hover effect */
+    text-transform: uppercase;                            /* Uppercase text */
+    letter-spacing: 0.5px;                                /* Spread letters slightly */
+    box-shadow: 0 4px 15px rgba(58, 123, 213, 0.2);      /* Subtle shadow effect */
+}
+
+#viewExercisesButton:hover {
+    background: linear-gradient(90deg, #4a8be5, #10e2ff);
+    box-shadow: 0 6px 20px rgba(58, 123, 213, 0.4);
+    transform: translateY(-2px);
+}
+
+#viewExercisesButton:active {
+    transform: translateY(0);
+}
+
+#navContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+    #section {
+        grid-template-columns: 1fr;
+        padding: 60px 16px 16px;
+    }
+
+    #title {
+        font-size: 2rem;
+    }
+
+    #workout {
+        padding: 20px;
+    }
+}
