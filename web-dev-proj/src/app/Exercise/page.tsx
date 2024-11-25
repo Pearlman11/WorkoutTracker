@@ -91,42 +91,51 @@ const ExercisesPage: React.FC = () => {
 
   // Function to add a new exercise
   const addExercise = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent default form submission
-    const currentDate = new Date();
-    const dateString = currentDate.toLocaleDateString(); // Get current date as string
-    const dayOfWeek = currentDate.toLocaleDateString(undefined, { weekday: 'long' }); // Get day of the week
+    e.preventDefault();
+    const dateString = exerciseForm.date;
+    const [year, month, day] = dateString.split('-').map(Number);
+    const selectedDate = new Date(year, month - 1, day);
+    const dayOfWeek = selectedDate.toLocaleDateString(undefined, { weekday: 'long' });
+    console.log(dayOfWeek);
+    console.log(exerciseForm.date);
+    console.log(selectedDate);
 
     const newExercise: Exercise = {
-      muscleGroup: exerciseForm.muscleGroup,
-      sets: [],
-      date: exerciseForm.date,
-      dayOfWeek: dayOfWeek,
-      exerciseName: exerciseForm.exerciseName,
+        muscleGroup: exerciseForm.muscleGroup,
+        sets: [],
+        date: exerciseForm.date,
+        dayOfWeek: dayOfWeek,
+        exerciseName: exerciseForm.exerciseName,
     };
 
     try {
-      const response = await fetch('/api/exercises', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newExercise), // Send new exercise data
-      });
+        const response = await fetch('/api/exercises', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newExercise),
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to add exercise');
-      }
+        if (!response.ok) {
+            throw new Error('Failed to add exercise');
+        }
 
-      const addedExercise = await response.json();
-      if (!dateParam || dateParam === dateString) {
-        setExercises(prev => [...prev, addedExercise]); // Update exercises state
-      }
-      setExerciseForm({ muscleGroup: '', exerciseName: '', date: Date.now().toString() }); // Reset form
+        const addedExercise = await response.json();
+        setExercises(prev => [...prev, addedExercise]);
+
+        // Reset form, format the date properly
+        setExerciseForm({
+            muscleGroup: '',
+            exerciseName: '',
+            date: new Date().toISOString().split('T')[0], // Correctly format as yyyy-MM-dd
+        });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to add exercise');
-      console.log(error);
+        setError(err instanceof Error ? err.message : 'Failed to add exercise');
+        console.error(err);
     }
   };
+
   
 
   // Function to remove an exercise
