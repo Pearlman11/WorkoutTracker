@@ -71,7 +71,7 @@ export default function Login() {
                     />
                     <span>TrackFit</span>
                 </div>
-                <h2 id={style.formTitle}>Sign up</h2>
+                <h2 id={style.formTitle}>Login</h2>
                 <form onSubmit={handleSubmit}>
                     <div id={style.inputGroup}>
                         <label htmlFor="email">Email:</label>
