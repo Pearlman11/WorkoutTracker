@@ -11,6 +11,7 @@ export interface IExercise extends Document {
   sets: ISet[];
   date: string;
   dayOfWeek: string;
+  email: string; // The email of the user who created the exercise
 }
 
 const SetSchema = new Schema<ISet>({
@@ -24,6 +25,7 @@ const ExerciseSchema = new Schema<IExercise>({
   sets: [SetSchema],
   date: { type: String, required: true },
   dayOfWeek: { type: String, required: true },
+  email: { type: String, required: true }
  }, {
   timestamps: true
 });

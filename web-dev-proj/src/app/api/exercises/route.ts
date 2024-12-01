@@ -16,6 +16,7 @@ export async function POST(request: Request) {
   try {
     await connectMongoDB();
     const data = await request.json();
+    console.log("data",data);
     const exercise = await Exercise.create(data);
     return NextResponse.json(exercise);
   } catch (error) {
