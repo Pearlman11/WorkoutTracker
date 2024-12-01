@@ -1,24 +1,27 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, {Schema, Document, Model} from "mongoose";
 
-interface ISet {
+
+
+
+interface Set {
   reps: number;
   weight: number;
 }
 
-export interface IExercise extends Document {
+export interface Exercise extends Document {
   exerciseName: string;
   muscleGroup: string;
-  sets: ISet[];
+  sets: Set[];
   date: string;
   dayOfWeek: string;
 }
 
-const SetSchema = new Schema<ISet>({
+const SetSchema = new Schema<Set>({
   reps: { type: Number, required: true },
   weight: { type: Number, required: true }
 });
 
-const ExerciseSchema = new Schema<IExercise>({
+const ExerciseSchema = new Schema<Exercise>({
   exerciseName: { type: String, required: true },
   muscleGroup: { type: String, required: true },
   sets: [SetSchema],
@@ -28,4 +31,5 @@ const ExerciseSchema = new Schema<IExercise>({
   timestamps: true
 });
 
-export default mongoose.models.Exercise || mongoose.model<IExercise>('Exercise', ExerciseSchema);
+const Exercise = mongoose.models.Exercise || mongoose.model<Exercise>('Exercise', ExerciseSchema);
+export default Exercise; 

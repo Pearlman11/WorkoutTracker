@@ -1,10 +1,12 @@
 "use client";
+
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import style from './WorkoutPage.module.css';
 import Nav from './Nav';
 
-// Interface for Exercise data structure
+// Interface: Exercise
+// Represents the data structure for an individual exercise
 interface Exercise {
   _id?: string;                // MongoDB document ID
   exerciseName: string;        // Name of the exercise performed
@@ -15,7 +17,8 @@ interface Exercise {
   sets: Array<{ weight: number; reps: number }>;  // Array of sets performed
 }
 
-// Interface for grouped workout data by date
+// Interface: WorkoutCard
+// Represents grouped workout data by date
 interface WorkoutCard {
   date: string;              // Date of the workout
   dayOfWeek: string;         // Day of the week
@@ -23,19 +26,20 @@ interface WorkoutCard {
   totalVolume: number;       // Total volume (weight × reps) for all exercises
 }
 
-// Main component implementation
+// Component: WorkoutsPage
+// Renders the main page that displays a summary of all workouts
 const WorkoutsPage: React.FC = () => {
-  // State management
+  // State management for workout data, loading status, and error handling
   const router = useRouter();
   const [workoutCards, setWorkoutCards] = useState<WorkoutCard[]>([]);  // Stores grouped workout data
   const [loading, setLoading] = useState(true);                         // Loading state indicator
   const [error, setError] = useState<string | null>(null);              // Error state management
 
-  // Fetch and process workout data on component mount
+  // useEffect: Fetch and process workout data when component mounts
   useEffect(() => {
     const fetchExercises = async () => {
       try {
-        // Fetch exercises from API
+        // Fetch exercises from the API
         const response = await fetch('/api/exercises');
         if (!response.ok) throw new Error('Failed to fetch exercises');
         
@@ -74,17 +78,19 @@ const WorkoutsPage: React.FC = () => {
     fetchExercises();
   }, []);
 
-  // Function to navigate to Exercises page with selected date
+  // Function: Navigate to Exercises page with selected date
   const navigateToExercises = (date: string) => {
     router.push(`/Exercise?date=${encodeURIComponent(date)}`);
   };
 
   return (
+    // Section: Main Container for Workouts Page
     <div className={style.container}>
       <div id={style.navContainer}>
-        <Nav changeView='./login' />
+        <Nav />
       </div>
       {loading ? (
+        // Display loading message while fetching data
         <p>Loading...</p>
       ) : (
         <div id={style.section}>
@@ -92,8 +98,10 @@ const WorkoutsPage: React.FC = () => {
             <h1 id={style.title}>Workout Summary</h1>
           </div>
           {workoutCards.length === 0 ? (
+            // Display message if no workouts are found
             <p>No workouts found.</p>
           ) : (
+            // Render each workout card with details
             workoutCards.map((card, index) => (
               <div id={style.workout} key={index}>
                 <div id={style.workoutHeader}>

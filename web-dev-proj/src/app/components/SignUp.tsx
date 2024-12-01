@@ -1,49 +1,63 @@
 "use client";
+
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import style from "./LoginSignup.module.css";
 import Image from "next/image";
 
+// Component: SignUp Form
+// Renders a sign-up form allowing users to create an account
 export default function SignUp() {
     const router = useRouter();
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-        ...prevState,
-        [name]: value
-    }));
-};
+
+    // State: Form Data
+    // Stores the values of username, email, and password input fields
     const [formData, setFormData] = useState({
         username: '',
         email: '',
         password: '',
     });
-    const handleSubmit = async (e : React.FormEvent) => {
+
+    // Handler: Input Change
+    // Updates the form data as the user types into the input fields
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    // Handler: Form Submit
+    // Handles the sign-up form submission, sends user data to the server
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const user = {
             username: formData.username,
             email: formData.email,
             password: formData.password
-        }
+        };
 
         try {
             await fetch('http://localhost:3000/api/users', {
                 method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(user),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
             });
-
         } catch (err) {
             alert(err);
         }
 
+        // Redirect to login page after successful sign-up
         router.push('/login');
-    }
+    };
 
     return (
+        // Section: Sign Up Form UI
+        // Renders the sign-up form with username, email, and password input fields
         <section className={style.formContainer}>
             <div id={style.formSection}>
                 <div id={style.logoNameContainer}>
@@ -58,6 +72,7 @@ export default function SignUp() {
                 </div>
                 <h2 id={style.formTitle}>Sign up</h2>
                 <form onSubmit={handleSubmit}>
+                    {/* Input: Email */}
                     <div id={style.inputGroup}>
                         <label htmlFor="email">Email:</label>
                         <input
@@ -68,6 +83,7 @@ export default function SignUp() {
                             onChange={handleChange}
                         />
                     </div>
+                    {/* Input: Username */}
                     <div id={style.inputGroup}>
                         <label htmlFor="username">Username:</label>
                         <input
@@ -78,6 +94,7 @@ export default function SignUp() {
                             onChange={handleChange}
                         />
                     </div>
+                    {/* Input: Password */}
                     <div id={style.inputGroup}>
                         <label htmlFor="password">Password:</label>
                         <input
@@ -88,10 +105,12 @@ export default function SignUp() {
                             onChange={handleChange}
                         />
                     </div>
+                    {/* Button: Submit Form */}
                     <button className={style.formButton} type="submit">
                         Create Account
                     </button>
                 </form>
+                {/* Link: Redirect to Login Page */}
                 <a id={style.loginLink} href="/login">
                     Already have an account? Login here
                 </a>

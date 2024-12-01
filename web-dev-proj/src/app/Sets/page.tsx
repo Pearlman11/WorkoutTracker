@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import style from './sets.module.css';
@@ -19,6 +20,8 @@ interface Exercise {
   dayOfWeek: string;     // Day of the week
 }
 
+// Component: SetsPage
+// Renders the page that allows users to view, add, and remove sets for a specific exercise
 export default function SetsPage() {
   // Get exercise data from URL parameters
   const searchParams = useSearchParams();
@@ -40,27 +43,24 @@ export default function SetsPage() {
   const addSet = async () => {
     // Validation check
     if (!exercise?._id || newSet.reps <= 0 || newSet.weight <= 0) return;
-
-    // Create updated exercise object with new set
-    const updatedExercise = {
-      ...exercise,
-      sets: [...exercise.sets, newSet]
-    };
-
-    // API call to update exercise in database
+  
+    // Create updated sets array with new set
+    const updatedSets = [...exercise.sets, newSet];
+  
+    // API call to update sets in database
     try {
-      const response = await fetch(`/api/exercises/${exercise._id}`, {
+      const response = await fetch(`/api/sets/${exercise._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ newExercise: updatedExercise }),
+        body: JSON.stringify({ sets: updatedSets }), // Send updated sets
       });
-
+  
       if (!response.ok) throw new Error('Failed to add set');
-
+  
       // Update local state and reset form
-      setExercise(updatedExercise);
+      setExercise(prev => prev ? { ...prev, sets: updatedSets } : null);
       setNewSet({ reps: 0, weight: 0 });
     } catch (error) {
       console.error('Error adding set:', error);
@@ -71,23 +71,23 @@ export default function SetsPage() {
   const removeSet = async (index: number) => {
     if (!exercise?._id) return;
 
-    const updatedExercise = {
-      ...exercise,
-      sets: exercise.sets.filter((_, i) => i !== index) // Remove set by index
-    };
+    // Create updated sets array with the set removed
+    const updatedSets = exercise.sets.filter((_, i) => i !== index);
 
+    // API call to update sets in database
     try {
-      const response = await fetch(`/api/exercises/${exercise._id}`, {
+      const response = await fetch(`/api/sets/${exercise._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ newExercise: updatedExercise }),
+        body: JSON.stringify({ sets: updatedSets }), // Send updated sets
       });
 
       if (!response.ok) throw new Error('Failed to remove set');
 
-      setExercise(updatedExercise); // Update exercise state
+      // Update local state
+      setExercise(prev => prev ? { ...prev, sets: updatedSets } : null);
     } catch (error) {
       console.error('Error removing set:', error);
     }
@@ -96,11 +96,13 @@ export default function SetsPage() {
   if (!exercise) return <div>Loading...</div>; // Loading state
 
   return (
+    // Section: Main Container for Sets Page
     <div className={style.container}>
       <div id={style.navContainer}>
-        <Nav changeView='./login' />
+        <Nav />
       </div>
       <div id={style.section}>
+        {/* Section: Exercise Header */}
         <div id={style.exerciseHeader}>
           <h1 id={style.title}>{exercise.exerciseName}</h1>
           <p id={style.subtitle}>{exercise.muscleGroup}</p>
@@ -112,6 +114,7 @@ export default function SetsPage() {
           </button>
         </div>
 
+        {/* Section: Add Set Form */}
         <div className={`${style.addSetForm} ${isFormVisible ? style.visible : ''}`}>
           <div className={style.inputContainer}>
             <div>
@@ -119,8 +122,8 @@ export default function SetsPage() {
               <input
                 id="reps"
                 type="number"
-                value={newSet.reps}
-                onChange={(e) => setNewSet({ ...newSet, reps: parseInt(e.target.value) })}
+                value={newSet.reps === 0 ? '' : newSet.reps}
+                onChange={(e) => setNewSet({ ...newSet, reps: e.target.value === '' ? 0 : parseInt(e.target.value) })}
                 placeholder="Enter reps"
               />
             </div>
@@ -129,8 +132,8 @@ export default function SetsPage() {
               <input
                 id="weight"
                 type="number"
-                value={newSet.weight}
-                onChange={(e) => setNewSet({ ...newSet, weight: parseInt(e.target.value) })}
+                value={newSet.weight === 0 ? '' : newSet.weight}
+                onChange={(e) => setNewSet({ ...newSet, weight: e.target.value === '' ? 0 : parseInt(e.target.value) })}
                 placeholder="Enter weight"
               />
             </div>
@@ -138,6 +141,7 @@ export default function SetsPage() {
           </div>
         </div>
 
+        {/* Section: Display Sets */}
         <div id={style.setsContainer}>
           {exercise.sets.map((set, index) => (
             <div key={index} id={style.setCard}>

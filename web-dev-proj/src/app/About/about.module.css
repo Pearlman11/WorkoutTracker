@@ -1,0 +1,57 @@
+/* Main container styling */
+.container {
+    background-color: #1a1a1a; /* Dark theme background */
+    color: #ffffff;           /* White text color */
+    min-height: 100vh;        /* Full viewport height */
+    padding: 20px;
+  }
+  
+  /* Content styling */
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #242424;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Title styling */
+  .title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Message styling */
+  .message {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  /* Subtitle styling */
+  .subtitle {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+  
+  /* Developers list styling */
+  .developers {
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .developers li {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+
+  }
