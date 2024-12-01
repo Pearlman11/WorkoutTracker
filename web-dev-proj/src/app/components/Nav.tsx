@@ -17,6 +17,9 @@ export default function Nav({ changeView }: NavProps) {
                 <h1>Track Fit</h1>
             </Link>
             <div className={styles.navLinks}>
+                <Link href="/BMI" className={styles.navLink}>
+                    BMI Calculator
+                </Link>
                 {currentPath === '/Exercise' ? (
                     <Link href="/home" className={styles.navLink}>
                         Go to Workouts
