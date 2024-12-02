@@ -21,7 +21,13 @@ export default function Nav() {
 
             {/* Section: Navigation Links */}
             <div className={styles.navLinks}>
+
+                <Link href="/BMI" className={styles.navLink}>
+                    BMI Calculator
+                </Link>
+
                 {/* Conditional Link: Displays based on current path */}
+
                 {currentPath === '/Exercise' ? (
                     <Link href="/home" className={styles.navLink}>
                         Go to Workouts
