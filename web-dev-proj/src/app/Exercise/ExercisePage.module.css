@@ -17,6 +17,7 @@
     max-width: 80vw;
     min-height: 80vh;
     padding: 80px 24px 24px;
+    align-items: center;
 }
 
 /* Styling for the "No exercises" message with gradient text */
@@ -29,8 +30,19 @@
     font-size: 2rem;
     text-align: center;
     padding: 40px 20px;
-    grid-column: 1 / -1;  /* Spans full width of grid */
+    grid-row-start: 1;
+    grid-column-start: 2;
     animation: fadeIn 0.5s ease-in-out;
+}
+
+.noExercisesContainer {
+    grid-column: 1 / span 3;
+    display: grid;
+    align-items: center;
+    grid-template-rows: auto;
+    grid-template-columns: auto;
+    justify-content: center;
+    width: 100%;
 }
 
 #titleContainer {
@@ -317,4 +329,25 @@
 #dateInputField::-webkit-calendar-picker-indicator {
     filter: invert(1);
     cursor: pointer;
+}
+
+#templateButton {
+    background: linear-gradient(90deg, #ff4b4b, #ff6b6b);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    grid-row: 2 / 2;
+    grid-column: 2 / 2;
+}
+
+
+#templateButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(58, 123, 213, 0.3);
 }

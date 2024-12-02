@@ -364,7 +364,14 @@ const ExercisesPage: React.FC = () => {
                         </form>
                     </div>
                     {exercises.length === 0 ? (
-                        <p id={style.noExercises}>No exercises found.</p>
+                        <div className={style.noExercisesContainer}>
+                            <p id={style.noExercises}>No exercises found.</p>
+                            <button id={style.templateButton} onClick={() => {
+                                router.push('/WorkoutOptions')
+                            }}>
+                                Browse Templates
+                            </button>
+                        </div>
                     ) : (
                         exercises.map((exercise, exerciseIndex) => (
                             <div id={style.exercise} key={exerciseIndex}>

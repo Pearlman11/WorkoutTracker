@@ -59,7 +59,7 @@ export default function Login() {
 
       if (response?.error === null) {
         console.log("Login successful:", response);
-        window.location.href = "/home"; 
+        window.location.href = "/home";
       } else {
         console.error("Login failed:", response?.error);
         alert("Invalid login credentials. Please try again.");
