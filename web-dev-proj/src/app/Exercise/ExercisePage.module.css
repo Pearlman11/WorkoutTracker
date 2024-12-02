@@ -36,13 +36,14 @@
 }
 
 .noExercisesContainer {
-    grid-column: 1 / span 3;
+    grid-column: 1 / span 4;
     display: grid;
     align-items: center;
     grid-template-rows: auto;
     grid-template-columns: auto;
     justify-content: center;
     width: 100%;
+
 }
 
 #titleContainer {

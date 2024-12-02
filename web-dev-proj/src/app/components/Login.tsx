@@ -61,12 +61,10 @@ export default function Login() {
         console.log("Login successful:", response);
         window.location.href = "/home";
       } else {
-        console.error("Login failed:", response?.error);
         alert("Invalid login credentials. Please try again.");
       }
     } catch (err) {
-      console.error("Login failed:", err);
-      alert("An unexpected error occurred during login.");
+      alert("An unexpected error occurred during login." + err);
     }
   };
 
