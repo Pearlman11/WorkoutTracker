@@ -112,7 +112,7 @@
     color: transparent;
 }
 
-#loginLink {
+.link {
     display: block;
     text-align: center;
     margin-top: 20px;
@@ -122,6 +122,6 @@
     transition: color 0.2s ease;
 }
 
-#loginLink:hover {
+.link:hover {
     color: #00d2ff;
 }

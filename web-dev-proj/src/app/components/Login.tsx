@@ -4,7 +4,7 @@ import React from "react";
 import { signIn, signOut } from "next-auth/react";
 import style from "./LoginSignup.module.css";
 import Image from "next/image";
-
+import Link from "next/link";
 
 interface LoginResponse {
   ok: boolean;
@@ -109,9 +109,12 @@ export default function Login() {
             Login
           </button>
         </form>
-        <a id={style.loginLink} href="/">
+        <Link className={style.link} href="/">
           Don&apos;t have an account? Sign up here
-        </a>
+        </Link>
+        <Link className={style.link} href="/About">
+          About Us
+        </Link>
       </div>
     </section>
   );

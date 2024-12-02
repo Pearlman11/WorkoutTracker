@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import style from "./LoginSignup.module.css";
 import Image from "next/image";
+import Link from "next/link";
 
 // Component: SignUp Form
 // Renders a sign-up form allowing users to create an account
@@ -111,9 +112,12 @@ export default function SignUp() {
                     </button>
                 </form>
                 {/* Link: Redirect to Login Page */}
-                <a id={style.loginLink} href="/login">
+                <Link className={style.link} href="/login">
                     Already have an account? Login here
-                </a>
+                </Link>
+                <Link className={style.link} href="/About">
+                    About Us
+                </Link>
             </div>
         </section>
     );
