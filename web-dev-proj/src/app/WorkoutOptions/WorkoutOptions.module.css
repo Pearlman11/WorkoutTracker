@@ -1,0 +1,185 @@
+/* Main container styling */
+.container {
+  background-color: #1a1a1a; /* Dark theme background */
+  max-width: 100vw;          /* Full viewport width */
+  min-height: 100vh;         /* Full viewport height */
+  padding: 20px;
+}
+
+/* Grid layout for workout cards */
+#section {
+  background-color: #242424;
+  border-radius: 12px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(300px, 1fr)); /* Maximum 2 cards per row */
+  gap: 24px;
+  max-width: 80vw;
+  min-height: 80vh;
+  padding: 80px 24px 24px;
+}
+
+/* Title styling */
+#titleContainer {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+#title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Card styling */
+#workoutCard {
+  background: linear-gradient(145deg, #2a2a2a, #242424);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+#workoutCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Workout details text */
+#cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+#cardDetails {
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 8px 0;
+}
+
+#cardDetails strong {
+  background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+}
+
+#instructions {
+  color: #ffffff;
+  font-size: 0.95rem;
+  margin-top: 16px;
+}
+
+#instructions ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+#instructions li {
+  margin-bottom: 8px;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  #section {
+      padding: 60px 16px 16px;
+  }
+
+  #title {
+      font-size: 2rem;
+  }
+
+  #workoutCard {
+      padding: 20px;
+  }
+}
+
+#filterContainer {
+  display: flex;
+  justify-self: center;
+  justify-content: space-between;
+}
+
+#muscleFilter {
+  margin-left: 10px;
+  color: black;
+}
+
+#categoryFilterLabel {
+  margin-left: 10px;
+  color: white;
+}
+
+#categoryFilter {
+  color: black;
+  margin-left: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: auto; /* Pushes the button container to the bottom */
+}
+
+#showInstructionsButton {
+  background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  padding: 12px 28px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  margin-right: 10px;
+}
+
+#addExerciseButton {
+  background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  padding: 12px 28px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+
+#instructions  {
+  background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+}
+
+
+#instructionContent {
+  color: white;
+  font-size: 14px;
+  list-style: circle;
+  justify-content: space-between;
+}
+
+.successMessage {
+  background-color: #28a745;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 20px 0;
+  transition: opacity 0.3s ease;
+}
+

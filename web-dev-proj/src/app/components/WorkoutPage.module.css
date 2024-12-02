@@ -54,6 +54,19 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 16px;
 }
+/* Styling for the "No exercises" message with gradient text */
+.noExercises {
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+    -webkit-background-clip: text;  /* Creates gradient text effect */
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+    font-size: 2rem;
+    text-align: center;
+    padding: 40px 20px;
+    grid-column: 1 / -1;  /* Spans full width of grid */
+    animation: fadeIn 0.5s ease-in-out;
+}
 
 /* Workout date display styling */
 #date {

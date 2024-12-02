@@ -228,7 +228,7 @@
 }
 
 #removeExerciseButton,
-#viewSetsButton {
+#viewSetsButton, #editExerciseButton {
     padding: 10px 20px;
     border-radius: 8px;
     font-size: 0.9rem;
@@ -249,8 +249,14 @@
     color: white;
 }
 
+#editExerciseButton {
+    background: linear-gradient(90deg, #00b566, #00d2ff);
+    border: none;
+    color: white;
+}
+
 #removeExerciseButton:hover,
-#viewSetsButton:hover {
+#viewSetsButton:hover, #editExerciseButton:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
