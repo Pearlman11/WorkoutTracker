@@ -14,6 +14,7 @@ export interface Exercise extends Document {
   sets: Set[];
   date: string;
   dayOfWeek: string;
+  email: string;
 }
 
 const SetSchema = new Schema<Set>({
@@ -27,6 +28,7 @@ const ExerciseSchema = new Schema<Exercise>({
   sets: [SetSchema],
   date: { type: String, required: true },
   dayOfWeek: { type: String, required: true },
+  email: { type: String, required: true }
  }, {
   timestamps: true
 });
