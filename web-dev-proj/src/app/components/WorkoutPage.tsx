@@ -5,37 +5,39 @@ import { useRouter } from 'next/navigation';
 import style from './WorkoutPage.module.css';
 import Nav from './Nav';
 
+// ------------------- Interfaces -------------------
 // Interface: Exercise
 // Represents the data structure for an individual exercise
 interface Exercise {
-  _id?: string;                // MongoDB document ID
+  _id?: string;                // MongoDB document ID (optional)
   exerciseName: string;        // Name of the exercise performed
   muscleGroup: string;         // Target muscle group
-  date: string;               // Date of the workout
-  dayOfWeek: string;          // Day of the week (e.g., "Monday")
-  imageUrl: string;           // URL for exercise demonstration image
+  date: string;                // Date of the workout
+  dayOfWeek: string;           // Day of the week (e.g., "Monday")
+  imageUrl: string;            // URL for exercise demonstration image
   sets: Array<{ weight: number; reps: number }>;  // Array of sets performed
 }
 
 // Interface: WorkoutCard
 // Represents grouped workout data by date
 interface WorkoutCard {
-  date: string;              // Date of the workout
-  dayOfWeek: string;         // Day of the week
-  exercises: Exercise[];     // All exercises performed on this date
-  totalVolume: number;       // Total volume (weight × reps) for all exercises
+  date: string;                // Date of the workout
+  dayOfWeek: string;           // Day of the week
+  exercises: Exercise[];       // All exercises performed on this date
+  totalVolume: number;         // Total volume (weight × reps) for all exercises
 }
 
+// ------------------- Component -------------------
 // Component: WorkoutsPage
 // Renders the main page that displays a summary of all workouts
 const WorkoutsPage: React.FC = () => {
-  // State management for workout data, loading status, and error handling
+  // ------------- State Management -------------
   const router = useRouter();
-  const [workoutCards, setWorkoutCards] = useState<WorkoutCard[]>([]);  // Stores grouped workout data
-  const [loading, setLoading] = useState(true);                         // Loading state indicator
-  const [error, setError] = useState<string | null>(null);              // Error state management
+  const [workoutCards, setWorkoutCards] = useState<WorkoutCard[]>([]); // Stores grouped workout data
+  const [loading, setLoading] = useState(true);                        // Loading state indicator
+  const [error, setError] = useState<string | null>(null);             // Error state management
 
-  // useEffect: Fetch and process workout data when component mounts
+  // ------------- Fetch and Process Data -------------
   useEffect(() => {
     const fetchExercises = async () => {
       try {
@@ -44,7 +46,7 @@ const WorkoutsPage: React.FC = () => {
         if (!response.ok) throw new Error('Failed to fetch exercises');
         
         const exercises: Exercise[] = await response.json();
-        
+
         // Group exercises by date for display
         const groupedExercises = exercises.reduce((acc: { [key: string]: Exercise[] }, exercise) => {
           if (!acc[exercise.date]) {
@@ -59,7 +61,6 @@ const WorkoutsPage: React.FC = () => {
           date,
           dayOfWeek: exercises[0].dayOfWeek,
           exercises,
-          // Calculate total volume for all exercises on this date
           totalVolume: exercises.reduce((total, exercise) => 
             total + exercise.sets.reduce((setTotal, set) => 
               setTotal + (set.weight * set.reps), 0), 0)
@@ -69,53 +70,62 @@ const WorkoutsPage: React.FC = () => {
         setWorkoutCards(cards.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
         setLoading(false);
       } catch (err) {
-        console.log(error);
+        console.error(error);
         setError(err instanceof Error ? err.message : 'Failed to fetch exercises');
         setLoading(false);
       }
     };
 
     fetchExercises();
-  }, []);
+  }, [error]);
 
-  // Function: Navigate to Exercises page with selected date
+  // ------------- Navigation -------------
+  // Function: Navigate to Exercises page with the selected date
   const navigateToExercises = (date: string) => {
     router.push(`/Exercise?date=${encodeURIComponent(date)}`);
   };
 
+  // ------------- Render UI -------------
   return (
-    // Section: Main Container for Workouts Page
     <div className={style.container}>
+      {/* Navigation */}
       <div id={style.navContainer}>
         <Nav />
       </div>
+
+      {/* Main Content */}
       {loading ? (
-        // Display loading message while fetching data
-        <p>Loading...</p>
+        <p>Loading...</p> // Display loading message while fetching data
       ) : (
         <div id={style.section}>
           <div id={style.titleContainer}>
             <h1 id={style.title}>Workout Summary</h1>
           </div>
+
+          {/* Display message if no workouts are found */}
           {workoutCards.length === 0 ? (
-            // Display message if no workouts are found
             <p>No workouts found.</p>
           ) : (
             // Render each workout card with details
             workoutCards.map((card, index) => (
               <div id={style.workout} key={index}>
+                {/* Workout Header */}
                 <div id={style.workoutHeader}>
                   <h2 id={style.date}>
                     {card.dayOfWeek} - {card.date}
                   </h2>
                   <p id={style.totalVolume}>Total Volume: {card.totalVolume} lbs</p>
                 </div>
+
+                {/* Workout Summary */}
                 <div id={style.exerciseSummary}>
                   <p>Exercises: {card.exercises.length}</p>
                   <p>Muscle Groups: {
                     [...new Set(card.exercises.map(ex => ex.muscleGroup))].join(', ')
                   }</p>
                 </div>
+
+                {/* Action Button */}
                 <div id={style.buttonContainer}>
                   <button
                     id={style.viewExercisesButton}

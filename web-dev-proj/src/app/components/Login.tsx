@@ -5,6 +5,12 @@ import { signIn, signOut } from "next-auth/react";
 import style from "./LoginSignup.module.css";
 import Image from "next/image";
 
+
+interface LoginResponse {
+  ok: boolean;
+  error: string | null;
+}
+
 // Utility Function: Logout Functionality
 // Handles logging out the user and redirecting to login page
 export async function doLogout() {
@@ -17,7 +23,8 @@ export async function doLogout() {
 
 // Utility Function: Credential Login
 // Handles user login using email and password credentials
-export async function doCredentialLogin(formData: FormData): Promise<any> {
+export async function doCredentialLogin(formData: FormData): Promise<LoginResponse> {
+  
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
@@ -29,13 +36,13 @@ export async function doCredentialLogin(formData: FormData): Promise<any> {
     });
 
     if (!response?.ok) {
-      throw new Error(response?.error || "Login failed");
+      alert("Login failed");
     }
 
-    return response;
-  } catch (err: any) {
-    console.error("Error during login:", err.message);
-    throw err;
+    return response as LoginResponse;
+  } catch (e) {
+    alert("Error during login:");
+    throw e;
   }
 }
 

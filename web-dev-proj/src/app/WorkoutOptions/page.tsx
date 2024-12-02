@@ -1,19 +1,21 @@
-// Import dependencies and components
+// ----------------------- Imports -----------------------
+// Import necessary dependencies and components
 "use client";
 import React, { useState } from "react";
-import exercisesData from "./all_exercises.json";
-import styles from "./WorkoutOptions.module.css";
-import Nav from "../components/Nav";
+import exercisesData from "./all_exercises.json"; // Exercise data
+import styles from "./WorkoutOptions.module.css"; // CSS for styling
+import Nav from "../components/Nav"; // Navigation component
 
-// Interface for individual exercise sets
+// ----------------------- Interfaces -----------------------
+// Represents an individual set of an exercise
 interface Set {
-  reps: number;    // Number of repetitions in the set
-  weight: number;  // Weight used in the set (in lbs)
+  reps: number;    // Number of repetitions
+  weight: number;  // Weight used in lbs
 }
 
-// Interface for exercise properties stored in the database
+// Represents an exercise stored in the database
 interface Exercise {
-  _id?: string;          // MongoDB unique identifier
+  _id?: string;          // MongoDB unique identifier (optional)
   muscleGroup: string;   // Target muscle group (e.g., "Chest", "Arms")
   sets: Set[];           // Array of sets performed
   date: string;          // Date exercise was performed
@@ -21,83 +23,87 @@ interface Exercise {
   exerciseName: string;  // Name of the exercise
 }
 
-// Interface for the exercise structure from exercisesData
+// Represents the structure of an exercise from the JSON data
 interface Exercises {
-  id: number;
-  name: string;
-  force: string | null;
-  level: string;
-  mechanic: string | null;
-  equipment: string | null;
-  primaryMuscles: string[];
-  secondaryMuscles: string[];
-  instructions: string[];
-  category: string;
+  id: number;              // Unique identifier for the exercise
+  name: string;            // Name of the exercise
+  force: string | null;    // Type of force (e.g., "pull", "push")
+  level: string;           // Difficulty level (e.g., "beginner")
+  mechanic: string | null; // Type of mechanic (e.g., "compound")
+  equipment: string | null; // Required equipment
+  primaryMuscles: string[]; // Primary muscles targeted
+  secondaryMuscles: string[]; // Secondary muscles targeted
+  instructions: string[];    // Step-by-step instructions
+  category: string;          // Exercise category (e.g., "strength")
 }
 
+// ----------------------- Component -----------------------
 const WorkoutOptions: React.FC = () => {
-  // State variables for managing filters, visibility, exercises, and messages
-  const [selectedMuscle, setSelectedMuscle] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [visibleInstructions, setVisibleInstructions] = useState<number | null>(null);
-  const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [successMessage, setSuccessMessage] = useState<string>("");
+  // ----------------------- State Management -----------------------
+  const [selectedMuscle, setSelectedMuscle] = useState<string>(""); // Selected muscle group
+  const [selectedCategory, setSelectedCategory] = useState<string>(""); // Selected category
+  const [visibleInstructions, setVisibleInstructions] = useState<number | null>(null); // ID of the exercise whose instructions are visible
+  const [exercises, setExercises] = useState<Exercise[]>([]); // List of exercises added to the database
+  const [successMessage, setSuccessMessage] = useState<string>(""); // Success message after adding an exercise
 
-  // Get unique primary muscles for the dropdown options
+  // ----------------------- Unique Dropdown Options -----------------------
+  // Extract unique primary muscles for the muscle group dropdown
   const uniquePrimaryMuscles = Array.from(
     new Set(exercisesData.flatMap((exercise) => exercise.primaryMuscles))
   );
 
-  // Get unique categories for the dropdown options
+  // Extract unique categories for the category dropdown
   const uniqueCategories = Array.from(
     new Set(exercisesData.map((exercise) => exercise.category))
   );
 
-  // Function to toggle visibility of exercise instructions
+  // ----------------------- Functions -----------------------
+
+  // Toggle visibility of exercise instructions
   const toggleInstructions = (id: number) => {
     setVisibleInstructions(visibleInstructions === id ? null : id);
-  }
+  };
 
-  // Add exercise to the Exercises page and database
+  // Add a selected exercise to the database
   const addExerciseToDatabase = async (exercise: Exercises) => {
     const currentDate = new Date();
-    const dayOfWeek = currentDate.toLocaleDateString(undefined, { weekday: 'long' });
-    const formattedDate = currentDate.toISOString().split('T')[0]; // Extract the date part
-  
-    const newExercise = {
+    const dayOfWeek = currentDate.toLocaleDateString(undefined, { weekday: "long" });
+    const formattedDate = currentDate.toISOString().split("T")[0]; // Format date as YYYY-MM-DD
+
+    const newExercise: Exercise = {
       ...exercise,
-      date: formattedDate, // Use the formatted date
+      date: formattedDate,
       muscleGroup: exercise.primaryMuscles[0],
       dayOfWeek: dayOfWeek,
       sets: [],
       exerciseName: exercise.name,
     };
-  
+
     try {
       // Send POST request to add exercise to the database
-      const response = await fetch('/api/exercises', {
-        method: 'POST',
+      const response = await fetch("/api/exercises", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newExercise),
       });
-  
+
       if (!response.ok) {
-        throw new Error('Failed to add exercise');
+        throw new Error("Failed to add exercise");
       }
-  
-      // Update state after adding exercise successfully
+
+      // Update state and show success message
       const addedExercise = await response.json();
       setExercises([...exercises, addedExercise]);
       setSuccessMessage("Added to exercises successfully");
-      setTimeout(() => setSuccessMessage(""), 3000); // Hide message after 3 seconds
+      setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
     } catch (error) {
-      console.error('Error adding exercise:', error);
+      console.error("Error adding exercise:", error);
     }
   };
 
-  // Filter exercises based on the selected muscle group and category
+  // Filter exercises based on selected muscle group and category
   const filteredExercises = exercisesData.filter((exercise) => {
     const matchesMuscle = selectedMuscle
       ? exercise.primaryMuscles.includes(selectedMuscle)
@@ -105,14 +111,14 @@ const WorkoutOptions: React.FC = () => {
     const matchesCategory = selectedCategory
       ? exercise.category === selectedCategory
       : true;
-
     return matchesMuscle && matchesCategory;
   });
 
+  // ----------------------- JSX Rendering -----------------------
   return (
     <div className={styles.container}>
       {/* Navigation Bar */}
-      <Nav></Nav>
+      <Nav />
 
       {/* Title Section */}
       <div id={styles.titleContainer}>
@@ -121,6 +127,7 @@ const WorkoutOptions: React.FC = () => {
 
       {/* Filter Section */}
       <div id={styles.filterContainer}>
+        {/* Muscle Group Filter */}
         <label htmlFor="muscleFilter">Filter by Muscle Group:</label>
         <select
           id={styles.muscleFilter}
@@ -135,6 +142,7 @@ const WorkoutOptions: React.FC = () => {
           ))}
         </select>
 
+        {/* Category Filter */}
         <label id={styles.categoryFilterLabel} htmlFor="categoryFilter">Filter by Category:</label>
         <select
           id={styles.categoryFilter}
@@ -157,6 +165,7 @@ const WorkoutOptions: React.FC = () => {
       <div id={styles.section}>
         {filteredExercises.map((exercise: Exercises) => (
           <div key={exercise.id} id={styles.workoutCard}>
+            {/* Exercise Details */}
             <h2 id={styles.cardTitle}>{exercise.name}</h2>
             <p id={styles.cardDetails}>
               <strong>Category:</strong> {exercise.category}
@@ -174,14 +183,16 @@ const WorkoutOptions: React.FC = () => {
                 <h3 id={styles.instructions}>Instructions</h3>
                 <ul>
                   {exercise.instructions.map((instruction, index) => (
-                    <li id={styles.instructionContent} key={index}>{instruction}</li>
+                    <li id={styles.instructionContent} key={index}>
+                      {instruction}
+                    </li>
                   ))}
                 </ul>
               </div>
             )}
 
             {/* Action Buttons */}
-            <div className={styles.buttonContainer}> 
+            <div className={styles.buttonContainer}>
               <button
                 id={styles.showInstructionsButton}
                 onClick={() => toggleInstructions(exercise.id)}

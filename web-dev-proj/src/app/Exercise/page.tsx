@@ -44,10 +44,10 @@ const ExercisesPage: React.FC = () => {
       return data; // Return fetched data
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch exercises');
-      console.error(err);
+      alert(error);
       return []; // Return empty array on error
     }
-  }, []);
+  }, [error]);
 
   // Load exercises on component mount or when dateParam changes
   useEffect(() => {
