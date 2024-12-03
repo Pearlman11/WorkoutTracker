@@ -32,9 +32,9 @@ const AboutPage: React.FC = () => {
                 <h2 className={styles.subtitle}>Meet the Developers</h2>
                 <ul className={styles.developers}>
                     <li>Developer 1: Jake Pearlman</li>
-                    <li>Developer 2: Ethan</li>
-                    <li>Developer 3: Michael</li>
-                    <li>Developer 4: Lucas</li>
+                    <li>Developer 2: Ethan Jacobs</li>
+                    <li>Developer 3: Michael Robinson</li>
+                    <li>Developer 4: Lucas Queiroz</li>
                 </ul>
             </div>
         </div>
